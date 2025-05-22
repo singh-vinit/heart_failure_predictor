@@ -13,3 +13,4 @@
 /frontend/.env*
 /frontend/.vercel
 /frontend/build
+/frontend/.next
