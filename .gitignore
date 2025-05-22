@@ -1,0 +1,15 @@
+# ---------------------------------------------------
+# Frontend (Next.js) specific ignores
+# ---------------------------------------------------
+/frontend/node_modules
+/frontend/.next/         # Next.js build output
+/frontend/out/           # Next.js static export output
+/frontend/npm-debug.log*
+/frontend/coverage/      # Test coverage reports
+/frontend/.eslintcache
+/frontend/.prettiercache
+/frontend/*.tsbuildinfo
+/frontend/next-env.d.ts
+/frontend/.env*
+/frontend/.vercel
+/fronted/build
