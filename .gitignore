@@ -12,4 +12,4 @@
 /frontend/next-env.d.ts
 /frontend/.env*
 /frontend/.vercel
-/fronted/build
+/frontend/build
