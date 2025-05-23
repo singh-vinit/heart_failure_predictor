@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { HeartPulse } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -26,13 +27,13 @@ const Navbar = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Features</a>
-            <a href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Benefits</a>
-            <a href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Resources</a>
-            <a href="#" className="text-gray-600 hover:text-rose-600 transition-colors">About</a>
+            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Features</Link>
+            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Benefits</Link>
+            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Resources</Link>
+            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">About</Link>
             <div className="flex items-center space-x-4">
               <Button onClick={handleSignUp} variant="outline" className="border-rose-600 text-rose-600 hover:bg-rose-50 cursor-pointer">Sign Up</Button>
-              <Button onClick={handleSignUp} className="bg-rose-600 hover:bg-rose-700 cursor-pointer">Sign In</Button>
+              <Button onClick={handleSignUp} className="bg-rose-500 hover:bg-rose-600 cursor-pointer">Sign In</Button>
             </div>
           </div>
           
@@ -54,10 +55,10 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200">
-            <a href="#" className="block py-2 text-gray-600 hover:text-rose-600">Features</a>
-            <a href="#" className="block py-2 text-gray-600 hover:text-rose-600">Benefits</a>
-            <a href="#" className="block py-2 text-gray-600 hover:text-rose-600">Resources</a>
-            <a href="#" className="block py-2 text-gray-600 hover:text-rose-600">About</a>
+            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">Features</Link>
+            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">Benefits</Link>
+            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">Resources</Link>
+            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">About</Link>
             <div className="mt-4 flex flex-col space-y-2">
               <Button onClick={handleSignUp} variant="outline" className="w-full border-rose-600 text-rose-600 hover:bg-rose-50 cursor-pointer">Sign Up</Button>
               <Button onClick={handleSignIn} className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer">Sign In</Button>

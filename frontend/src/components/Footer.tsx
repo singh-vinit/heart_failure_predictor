@@ -14,7 +14,6 @@ const Footer = () => {
               Advanced analytics to predict and prevent heart failure readmissions, improving patient outcomes and reducing healthcare costs.
             </p>
           </div>
-          
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             <div>
               <h3 className="text-lg font-semibold mb-4 text-white">Product</h3>

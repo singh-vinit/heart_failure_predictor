@@ -27,7 +27,9 @@ const Hero = () => {
               {/* <div className="absolute -top-6 -left-6 w-24 h-24 bg-blue-100 rounded-full animate-pulse"></div>
               <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-blue-200 rounded-full animate-pulse"></div> */}
               <div className="p-6 rounded-xl flex items-center justify-center">
-                <div className="absolute h-42 w-42 rounded-full bg-rose-100 animate-pulse"></div>
+                <div className="absolute h-56 w-56 rounded-full bg-rose-100 blur-sm animate-pulse"></div>
+                <div className="absolute h-48 w-48 rounded-full bg-rose-200 blur-sm animate-pulse"></div>
+                <div className="absolute h-36 w-36 rounded-full bg-rose-300 blur-sm animate-pulse"></div>
                 <HeartPulse className="w-32 h-32 text-rose-600 relative" />
               </div>
             </div>

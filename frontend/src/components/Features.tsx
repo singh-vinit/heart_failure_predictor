@@ -41,7 +41,7 @@ const Features = () => {
                 <div>
                   <h3 className="text-xl font-semibold text-rose-800 mb-2">Care Plan Generator</h3>
                   <p className="text-gray-600">
-                    Automatically generates personalized care plans tailored to each patient's specific risk factors.
+                    Automatically generates personalized care plans tailored to each patient&aposs specific risk factors.
                   </p>
                 </div>
               </div>

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link"
+import { Heart } from "lucide-react"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
@@ -20,13 +21,39 @@ export default function LoginForm() {
   return (
     <div className="relative w-full max-w-md">
       <Card className="border-none bg-white/90 backdrop-blur-sm shadow-xl drop-shadow-lg">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
-          <CardDescription className="text-center">Sign in to your account to continue</CardDescription>
+        <CardHeader className="flex items-center justify-center space-x-2">
+          <CardTitle>
+              <div className="bg-gradient-to-r from-rose-500 to-red-500 p-4 rounded-full shadow-lg w-fit">
+                <Heart className="h-8 w-8 text-white" />
+              </div>
+          </CardTitle>
+          <CardDescription className="text-xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">Sign up to the health failure readamission</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="space-y-1">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="John Doe"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                type="text"
+                placeholder="+1234567890"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="space-y-1">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -37,7 +64,7 @@ export default function LoginForm() {
                 required
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
               </div>
@@ -45,24 +72,25 @@ export default function LoginForm() {
                 id="password"
                 type="password"
                 value={password}
+                placeholder="********"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
-            <Button type="submit" className="w-full bg-rose-600 hover:bg-rose-700">
-              Sign in
+            <Button type="submit" className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer">
+              Sign up
             </Button>
           </form>
 
           <div className="flex items-center space-x-2">
             <Separator className="flex-1" />
-            <span className="text-xs text-gray-400">OR</span>
+            <span className="text-xs text-rose-400">OR</span>
             <Separator className="flex-1" />
           </div>
 
           <Button
             variant="outline"
-            className="w-full border-gray-300 hover:bg-gray-50"
+            className="w-full border-rose-300 hover:bg-rose-50 text-rose-600 hover:text-rose-800 cursor-pointer"
             onClick={() => console.log("Google sign in")}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
