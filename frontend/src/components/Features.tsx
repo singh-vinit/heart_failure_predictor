@@ -5,17 +5,17 @@ const Features = () => {
   return (
     <section className="py-16 bg-white">
       <div className="container px-4 mx-auto">
-        <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">Key Features</h2>
+        <h2 className="text-3xl font-bold text-center text-rose-900 mb-12">Key Features</h2>
         
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <div className="mb-8">
               <div className="flex items-start mb-4">
-                <div className="bg-blue-100 p-2 rounded-lg mr-4">
-                  <ChartLine className="h-6 w-6 text-blue-600" />
+                <div className="bg-rose-100 p-2 rounded-lg mr-4">
+                  <ChartLine className="h-6 w-6 text-rose-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-blue-800 mb-2">Predictive Analytics Dashboard</h3>
+                  <h3 className="text-xl font-semibold text-rose-800 mb-2">Predictive Analytics Dashboard</h3>
                   <p className="text-gray-600">
                     Intuitive visualization of patient risk factors and readmission probability with easy-to-interpret graphics.
                   </p>
@@ -23,11 +23,11 @@ const Features = () => {
               </div>
               
               <div className="flex items-start mb-4">
-                <div className="bg-blue-100 p-2 rounded-lg mr-4">
-                  <CalendarCheck className="h-6 w-6 text-blue-600" />
+                <div className="bg-rose-100 p-2 rounded-lg mr-4">
+                  <CalendarCheck className="h-6 w-6 text-rose-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-blue-800 mb-2">Automated Follow-up Scheduling</h3>
+                  <h3 className="text-xl font-semibold text-rose-800 mb-2">Automated Follow-up Scheduling</h3>
                   <p className="text-gray-600">
                     System suggests optimal follow-up timing based on individual patient risk profiles.
                   </p>
@@ -35,11 +35,11 @@ const Features = () => {
               </div>
               
               <div className="flex items-start">
-                <div className="bg-blue-100 p-2 rounded-lg mr-4">
-                  <Hospital className="h-6 w-6 text-blue-600" />
+                <div className="bg-rose-100 p-2 rounded-lg mr-4">
+                  <Hospital className="h-6 w-6 text-rose-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-blue-800 mb-2">Care Plan Generator</h3>
+                  <h3 className="text-xl font-semibold text-rose-800 mb-2">Care Plan Generator</h3>
                   <p className="text-gray-600">
                     Automatically generates personalized care plans tailored to each patient's specific risk factors.
                   </p>
@@ -48,9 +48,9 @@ const Features = () => {
             </div>
           </div>
           
-          <div className="bg-blue-50 p-6 rounded-xl shadow-inner">
+          <div className="bg-rose-50 p-6 rounded-xl shadow-inner">
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <h4 className="font-semibold text-blue-800 mb-3">Patient Risk Assessment</h4>
+              <h4 className="font-semibold text-rose-800 mb-3">Patient Risk Assessment</h4>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between mb-1">

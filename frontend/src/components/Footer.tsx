@@ -2,7 +2,7 @@ import { HeartPulse } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-900 text-blue-100 py-12">
+    <footer className="bg-rose-600 text-rose-100 py-12">
       <div className="container px-4 mx-auto">
         <div className="flex flex-col md:flex-row justify-between">
           <div className="mb-8 md:mb-0">
@@ -48,7 +48,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-blue-800 mt-12 pt-8 text-sm text-blue-300">
+        <div className="border-t border-rose-800 mt-12 pt-8 text-sm text-blue-300">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p>© 2025 Heart Failure Readmission Predictor. All rights reserved.</p>
             <div className="mt-4 md:mt-0">
