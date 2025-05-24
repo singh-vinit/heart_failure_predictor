@@ -32,7 +32,7 @@ const Navbar = ({ scrollToFeatures, scrollToBenefits }: NavbarProps) => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-          <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">About</Link>
+          <Link href="/about" className="text-gray-600 hover:text-rose-600 transition-colors">About</Link>
           <button onClick={scrollToBenefits} className="text-gray-600 hover:text-rose-600 transition-colors">Benefits</button>
           <button onClick={scrollToFeatures} className="text-gray-600 hover:text-rose-600 transition-colors">Features</button>
             <div className="flex items-center space-x-4">
@@ -59,13 +59,20 @@ const Navbar = ({ scrollToFeatures, scrollToBenefits }: NavbarProps) => {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200">
-            <button onClick={scrollToFeatures} className="block py-2 text-gray-600 hover:text-rose-600">Features</button>
+            <Link href="/about" className="block py-2 text-gray-600 hover:text-rose-600">About</Link>
             <button onClick={scrollToBenefits} className="block py-2 text-gray-600 hover:text-rose-600">Benefits</button>
-            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">Resources</Link>
-            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">About</Link>
+            <button onClick={scrollToFeatures} className="block py-2 text-gray-600 hover:text-rose-600">Features</button>
+           
+            
             <div className="mt-4 flex flex-col space-y-2">
-              <Button onClick={handleSignUp} variant="outline" className="w-full border-rose-600 text-rose-600 hover:bg-rose-50 cursor-pointer">Sign Up</Button>
-              <Button onClick={handleSignIn} className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer">Sign In</Button>
+            <div className="flex items-center space-x-4">
+          <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50">
+            Sign Up
+          </Button>
+          <Button className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600">
+            Sign In
+          </Button>
+        </div>
             </div>
           </div>
         )}
