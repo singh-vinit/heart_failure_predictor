@@ -32,10 +32,9 @@ const Navbar = ({ scrollToFeatures, scrollToBenefits }: NavbarProps) => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-          <button onClick={scrollToFeatures} className="text-gray-600 hover:text-rose-600 transition-colors">Features</button>
+          <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">About</Link>
           <button onClick={scrollToBenefits} className="text-gray-600 hover:text-rose-600 transition-colors">Benefits</button>
-            
-            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">About</Link>
+          <button onClick={scrollToFeatures} className="text-gray-600 hover:text-rose-600 transition-colors">Features</button>
             <div className="flex items-center space-x-4">
               <Button onClick={handleSignUp} variant="outline" className="border-rose-600 text-rose-600 hover:bg-rose-50 cursor-pointer">Sign Up</Button>
               <Button onClick={handleSignUp} className="bg-rose-500 hover:bg-rose-600 cursor-pointer">Sign In</Button>
