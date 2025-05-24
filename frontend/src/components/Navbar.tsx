@@ -6,7 +6,12 @@ import { HeartPulse } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const Navbar = () => {
+interface NavbarProps {
+  scrollToFeatures: () => void;
+  scrollToBenefits: () => void;
+}
+
+const Navbar = ({ scrollToFeatures, scrollToBenefits }: NavbarProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const handleSignIn = () => {
@@ -27,9 +32,9 @@ const Navbar = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Features</Link>
-            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Benefits</Link>
-            <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">Resources</Link>
+          <button onClick={scrollToFeatures} className="text-gray-600 hover:text-rose-600 transition-colors">Features</button>
+          <button onClick={scrollToBenefits} className="text-gray-600 hover:text-rose-600 transition-colors">Benefits</button>
+            
             <Link href="#" className="text-gray-600 hover:text-rose-600 transition-colors">About</Link>
             <div className="flex items-center space-x-4">
               <Button onClick={handleSignUp} variant="outline" className="border-rose-600 text-rose-600 hover:bg-rose-50 cursor-pointer">Sign Up</Button>
@@ -55,8 +60,8 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 py-4 border-t border-gray-200">
-            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">Features</Link>
-            <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">Benefits</Link>
+            <button onClick={scrollToFeatures} className="block py-2 text-gray-600 hover:text-rose-600">Features</button>
+            <button onClick={scrollToBenefits} className="block py-2 text-gray-600 hover:text-rose-600">Benefits</button>
             <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">Resources</Link>
             <Link href="#" className="block py-2 text-gray-600 hover:text-rose-600">About</Link>
             <div className="mt-4 flex flex-col space-y-2">
