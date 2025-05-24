@@ -1,40 +1,13 @@
 "use client";
-// import { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { supabase } from "@/lib/supabaseClient";
-// import LogoutButton from "@/components/LogoutButton";
-
-// export default function Dashboard() {
-//   const [loading, setLoading] = useState(true);
-//   const [user, setUser] = useState({});
-//   const router = useRouter();
-
-//   // useEffect(() => {
-//   //   const getUser = async () => {
-//   //     const { data } = await supabase.auth.getUser();
-//   //     if (!data.user) {
-//   //       router.replace("/signin");
-//   //     } else {
-//   //       setUser(data.user);
-//   //     }
-//   //     setLoading(false);
-//   //   };
-//   //   getUser();
-//   // }, [router]);
-
-//   // if (loading) return <div>Loading...</div>;
-
-//   return (
-//     <div>
-//       <h1>dashboard</h1>
-//       <LogoutButton />
-//     </div>
-//   );
-// }
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
+import LogoutButton from "@/components/LogoutButton";
 
 import { motion } from "motion/react";
 import { Heart } from "lucide-react";
 import MedicalForm from "@/components/MedicalForm";
+import { CircleUser } from "lucide-react";
 
 export default function Dashboard() {
   const containerVariants = {
@@ -60,8 +33,32 @@ export default function Dashboard() {
     },
   };
 
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({} as any);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) {
+        router.replace("/signin");
+      } else {
+        setUser(data.user);
+      }
+      setLoading(false);
+    };
+    getUser();
+  }, [router]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-red-100">
+      <div className="flex items-center justify-between bg-white px-6 py-4">
+        <div className="flex items-center space-x-2">
+          <CircleUser className="h-6 w-6 text-rose-500" />
+          <h1 className="text-[1rem] font-medium text-rose-500">{user.email}</h1>
+        </div>
+        <LogoutButton />
+      </div>
       <div className="container mx-auto px-4 py-12">
         <motion.div
           variants={containerVariants}
@@ -109,7 +106,7 @@ export default function Dashboard() {
           </motion.div>
         </motion.div>
         {/* Medical Form Section */}
-        <MedicalForm />
+        <MedicalForm userId={user.id} />
       </div>
     </div>
   );
