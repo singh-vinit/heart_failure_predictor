@@ -5,7 +5,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-model = joblib.load(r"veersa\xgb_model_joblib.pkl")
+model = joblib.load("xgb_model_joblib.pkl")
 
 def normalize_input(value, min_val, max_val):
     normalized = (value - min_val) / (max_val - min_val)
