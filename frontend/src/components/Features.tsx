@@ -99,4 +99,5 @@ const Features = forwardRef<HTMLDivElement>((props, ref) => {
   );
 });
 
+Features.displayName = "Features"; // Add this line
 export default Features;

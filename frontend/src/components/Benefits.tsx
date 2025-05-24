@@ -64,4 +64,5 @@ const Benefits = forwardRef<HTMLDivElement>((props, ref) => {
   );
 });
 
+Benefits.displayName = "Benefits";
 export default Benefits;
