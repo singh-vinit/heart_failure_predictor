@@ -1,33 +1,116 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import LogoutButton from "@/components/LogoutButton";
+// import { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
+// import { supabase } from "@/lib/supabaseClient";
+// import LogoutButton from "@/components/LogoutButton";
+
+// export default function Dashboard() {
+//   const [loading, setLoading] = useState(true);
+//   const [user, setUser] = useState({});
+//   const router = useRouter();
+
+//   // useEffect(() => {
+//   //   const getUser = async () => {
+//   //     const { data } = await supabase.auth.getUser();
+//   //     if (!data.user) {
+//   //       router.replace("/signin");
+//   //     } else {
+//   //       setUser(data.user);
+//   //     }
+//   //     setLoading(false);
+//   //   };
+//   //   getUser();
+//   // }, [router]);
+
+//   // if (loading) return <div>Loading...</div>;
+
+//   return (
+//     <div>
+//       <h1>dashboard</h1>
+//       <LogoutButton />
+//     </div>
+//   );
+// }
+
+import { motion } from "motion/react";
+import { Heart } from "lucide-react";
+import MedicalForm from "@/components/MedicalForm";
 
 export default function Dashboard() {
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState({});
-  const router = useRouter();
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (!data.user) {
-        router.replace("/signin");
-      } else {
-        setUser(data.user);
-      }
-      setLoading(false);
-    };
-    getUser();
-  }, [router]);
-
-  if (loading) return <div>Loading...</div>;
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
 
   return (
-    <div>
-      <h1>dashboard</h1>
-      <LogoutButton />
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-red-100">
+      <div className="container mx-auto px-4 py-12">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-4xl mx-auto text-center"
+        >
+          {/* Hero Section */}
+          <motion.div variants={itemVariants} className="mb-16">
+            <div className="flex items-center justify-center mb-6">
+              <motion.div
+                animate={{
+                  scale: [1, 1.1, 1],
+                  rotateY: [0, 180, 360],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="bg-gradient-to-r from-rose-500 to-red-500 p-6 rounded-full shadow-2xl"
+              >
+                <Heart className="h-8 w-8 text-white" />
+              </motion.div>
+            </div>
+
+            <motion.h1
+              variants={itemVariants}
+              className="text-3xl md:text-4xl font-bold text-gray-800 mb-6"
+            >
+              Heart Failure
+              <span className="bg-gradient-to-r from-rose-500 to-red-500 bg-clip-text text-transparent">
+                {" "}
+                Risk Predictor
+              </span>
+            </motion.h1>
+
+            <motion.p
+              variants={itemVariants}
+              className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto capitalize"
+            >
+              Enter your medical information below to assess your cardiovascular
+              health risk. All data is processed securely and confidentially.
+            </motion.p>
+          </motion.div>
+        </motion.div>
+        {/* Medical Form Section */}
+        <MedicalForm />
+      </div>
     </div>
   );
 }
