@@ -26,7 +26,17 @@ interface Props {
   userId: string;
 }
 
-const dischargeLocations = ["SNF", "HOME", "REHAB/DISTINCT PART HOSP", "LONG TERM CARE HOSPITAL", "SHORT TERM HOSPITAL", "LEFT AGAINST MEDICAL ADVI", "HOSPICE-HOME", "DISC-TRAN CANCER/CHLDRN H", "OTHER FACILITY"];
+const dischargeLocations = [
+  "SNF",
+  "HOME",
+  "REHAB/DISTINCT PART HOSP",
+  "LONG TERM CARE HOSPITAL",
+  "SHORT TERM HOSPITAL",
+  "LEFT AGAINST MEDICAL ADVI",
+  "HOSPICE-HOME",
+  "DISC-TRAN CANCER/CHLDRN H",
+  "OTHER FACILITY",
+];
 
 export default function MedicalForm({ userId }: Props) {
   const [formData, setFormData] = useState({
@@ -77,6 +87,7 @@ export default function MedicalForm({ userId }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setDatabaseLoading(true);
+    // api call to store patient data in the database
     const res = await fetch("/api/store", {
       method: "POST",
       headers: {
@@ -89,13 +100,32 @@ export default function MedicalForm({ userId }: Props) {
         gender: formData.patientGender == "M" ? "MALE" : "FEMALE",
         admitDate: formData.admitDate,
         dischargeDate: formData.dischargeDate,
-        dischargeLocation: dischargeLocations[Number(formData.dischargeLocation)],
+        dischargeLocation:
+          dischargeLocations[Number(formData.dischargeLocation)],
       }),
     });
-    console.log(res)
-    if(res.status === 400) {
-      alert("A record with this userId already exists.");
-    }
+    console.log(res);
+
+    //api call to prcess the data with the ML model
+    const tests = [] as [string, string][];
+    formData.labTest.map((test) => tests.push([test.status, test.code]));
+    const predictionRes = await fetch("https://heart-failure-predictor-z0j1.onrender.com/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        features: [
+          formData.dischargeLocation,
+          formData.admitDate,
+          formData.dischargeDate,
+          formData.patientGender,
+          tests,
+        ],
+      }),
+    });
+    console.log(predictionRes);
+
     setDatabaseLoading(false);
   };
 
@@ -293,8 +323,8 @@ export default function MedicalForm({ userId }: Props) {
                       <SelectValue placeholder="Select gender" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="M">Male</SelectItem>
-                      <SelectItem value="F">Female</SelectItem>
+                      <SelectItem value="Male">Male</SelectItem>
+                      <SelectItem value="Female">Female</SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-gray-500 flex items-start gap-1">
@@ -451,7 +481,7 @@ export default function MedicalForm({ userId }: Props) {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="normal">Normal</SelectItem>
-                          <SelectItem value="Abnormal">Abnormal</SelectItem>
+                          <SelectItem value="abnormal">Abnormal</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
