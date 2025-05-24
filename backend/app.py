@@ -123,7 +123,7 @@ def predict():
 
         return jsonify({
             "prediction": prediction,
-            "probability": probability
+            "probability": float(probability)
         })
 
     except Exception as e:
