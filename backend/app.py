@@ -53,7 +53,7 @@ icd9_severity_mapping = {
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return "XGBoost Model API is running!"
 
 @app.route('/predict', methods=['POST'])
 def predict():
