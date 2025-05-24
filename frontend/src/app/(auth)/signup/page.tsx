@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner"
 import {
   Card,
   CardContent,
@@ -38,8 +39,7 @@ export default function LoginForm() {
     if (error) {
       setError(error.message);
       setLoading(false);
-      alert(error.message);
-      console.error("Supabase sign-up error:", error);
+      toast(error.message);
     } else {
       // Optionally, store name/phone in your own table here
       router.push("/signin");
@@ -57,8 +57,7 @@ export default function LoginForm() {
     });
     if (error) {
       setError(error.message);
-      alert(error.message);
-      console.error("Supabase Google sign-in error:", error);
+      toast(error.message);
       setLoading(false);
     }
     // On success, Supabase will redirect automatically

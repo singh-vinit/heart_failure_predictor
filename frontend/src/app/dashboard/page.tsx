@@ -1,22 +1,28 @@
-import { createServerClient } from "@supabase/ssr";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 import LogoutButton from "@/components/LogoutButton";
 
-export default async function Dashboard() {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: await cookies() }
-  );
+export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({});
+  const router = useRouter();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) {
+        router.replace("/signin");
+      } else {
+        setUser(data.user);
+      }
+      setLoading(false);
+    };
+    getUser();
+  }, [router]);
 
-  if (!user) {
-    redirect("/signin");
-  }
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div>

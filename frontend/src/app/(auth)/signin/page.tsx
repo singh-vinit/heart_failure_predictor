@@ -3,6 +3,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { Separator } from "@/components/ui/separator";
+import { Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 import {
   Card,
   CardContent,
@@ -11,12 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
-import { Heart } from "lucide-react";
-import { useRouter } from "next/navigation";
-
-import { supabase } from "@/lib/supabaseClient";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -29,6 +29,7 @@ export default function LoginForm() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
@@ -36,9 +37,9 @@ export default function LoginForm() {
     if (error) {
       setError(error.message);
       setLoading(false);
-      alert(error.message);
-      console.error("Supabase sign-in error:", error);
+      toast(error.message);
     } else {
+      router.push("/dashboard");
       console.log("User data:", data);
     }
   };
@@ -49,13 +50,12 @@ export default function LoginForm() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`, // Important: Set up this callback route
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     });
     if (error) {
       setError(error.message);
-      alert(error.message);
-      console.error("Supabase Google sign-in error:", error);
+      toast(error.message);
       setLoading(false);
     }
     // Supabase handles the redirect, so no need to setLoading(false) here if successful

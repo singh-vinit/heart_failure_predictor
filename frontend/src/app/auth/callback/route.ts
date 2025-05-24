@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       );
     }
   }
-
+  console.log("redirecting...")
   // Redirect to your dashboard or desired page after successful login
   return NextResponse.redirect(`${origin}/dashboard`);
 }
