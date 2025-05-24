@@ -5,7 +5,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Load the saved model
-model = joblib.load(r"veersa\xgb_model_joblib.pkl")
+model = joblib.load("xgb_model_joblib.pkl")
 
 @app.route('/')
 def index():
