@@ -1,59 +1,85 @@
-"use client"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import Link from "next/link"
-import { Heart } from "lucide-react"
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle login logic here
-    console.log({ email, password })
-  }
+  const handleEmailSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      alert(error.message);
+      console.error("Supabase sign-up error:", error);
+    } else {
+      // Optionally, store name/phone in your own table here
+      router.push("/signin");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    if (error) {
+      setError(error.message);
+      alert(error.message);
+      console.error("Supabase Google sign-in error:", error);
+      setLoading(false);
+    }
+    // On success, Supabase will redirect automatically
+  };
 
   return (
     <div className="relative w-full max-w-md">
       <Card className="border-none bg-white/90 backdrop-blur-sm shadow-xl drop-shadow-lg">
         <CardHeader className="flex items-center justify-center space-x-2">
           <CardTitle>
-              <div className="bg-gradient-to-r from-rose-500 to-red-500 p-4 rounded-full shadow-lg w-fit">
-                <Heart className="h-8 w-8 text-white" />
-              </div>
+            <div className="bg-gradient-to-r from-rose-500 to-red-500 p-4 rounded-full shadow-lg w-fit">
+              <Heart className="h-8 w-8 text-white" />
+            </div>
           </CardTitle>
-          <CardDescription className="text-xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">Sign up to the health failure readamission</CardDescription>
+          <CardDescription className="text-xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">
+            Sign up to the health failure readamission
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div className="space-y-1">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="John Doe"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="phone">Phone Number</Label>
-              <Input
-                id="phone"
-                type="text"
-                placeholder="+1234567890"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-1">
+          <form onSubmit={handleEmailSignUp} className="space-y-4">
+            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -64,7 +90,7 @@ export default function LoginForm() {
                 required
               />
             </div>
-            <div className="space-y-1">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Password</Label>
               </div>
@@ -77,7 +103,10 @@ export default function LoginForm() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer">
+            <Button
+              type="submit"
+              className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer"
+            >
               Sign up
             </Button>
           </form>
@@ -91,7 +120,7 @@ export default function LoginForm() {
           <Button
             variant="outline"
             className="w-full border-rose-300 hover:bg-rose-50 text-rose-600 hover:text-rose-800 cursor-pointer"
-            onClick={() => console.log("Google sign in")}
+            onClick={handleGoogleSignIn}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -118,12 +147,15 @@ export default function LoginForm() {
         <CardFooter className="text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <Link href="/signin" className="text-rose-600 hover:text-rose-800 font-medium">
+            <Link
+              href="/signin"
+              className="text-rose-600 hover:text-rose-800 font-medium"
+            >
               Sign in
             </Link>
           </p>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

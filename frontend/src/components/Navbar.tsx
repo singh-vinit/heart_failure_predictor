@@ -20,10 +20,10 @@ const Navbar = () => {
     <nav className="bg-white py-4 sticky top-0 z-50">
       <div className="container px-4 mx-auto">
         <div className="flex justify-between items-center">
-          <a href="/" className="flex items-center">
+          <Link href="/" className="flex items-center">
             <HeartPulse className="h-8 w-8 text-rose-600 mr-2" />
             <span className="text-xl font-bold text-rose-900">HFRP</span>
-          </a>
+          </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">

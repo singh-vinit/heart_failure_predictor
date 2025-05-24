@@ -1,36 +1,81 @@
-"use client"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import Link from "next/link"
-import { Heart } from "lucide-react"
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { Heart } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { supabase } from "@/lib/supabaseClient";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle login logic here
-    console.log({ email, password })
-  }
+  const handleEmailSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      alert(error.message);
+      console.error("Supabase sign-in error:", error);
+    } else {
+      console.log("User data:", data);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`, // Important: Set up this callback route
+      },
+    });
+    if (error) {
+      setError(error.message);
+      alert(error.message);
+      console.error("Supabase Google sign-in error:", error);
+      setLoading(false);
+    }
+    // Supabase handles the redirect, so no need to setLoading(false) here if successful
+  };
 
   return (
     <div className="relative w-full max-w-md">
       <Card className="border-none bg-white/90 backdrop-blur-sm shadow-xl drop-shadow-lg">
         <CardHeader className="flex items-center justify-center space-x-2">
           <CardTitle>
-              <div className="bg-gradient-to-r from-rose-500 to-red-500 p-4 rounded-full shadow-lg w-fit">
-                <Heart className="h-8 w-8 text-white" />
-              </div>
+            <div className="bg-gradient-to-r from-rose-500 to-red-500 p-4 rounded-full shadow-lg w-fit">
+              <Heart className="h-8 w-8 text-white" />
+            </div>
           </CardTitle>
-          <CardDescription className="text-xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">Sign in to your account to continue</CardDescription>
+          <CardDescription className="text-xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">
+            Sign in to your account to continue
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleEmailSignIn} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -56,7 +101,10 @@ export default function LoginForm() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer">
+            <Button
+              type="submit"
+              className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer"
+            >
               Sign in
             </Button>
           </form>
@@ -70,7 +118,8 @@ export default function LoginForm() {
           <Button
             variant="outline"
             className="w-full border-rose-300 hover:bg-rose-50 text-rose-600 hover:text-rose-800 cursor-pointer"
-            onClick={() => console.log("Google sign in")}
+            onClick={handleGoogleSignIn}
+            disabled={loading}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
@@ -97,12 +146,15 @@ export default function LoginForm() {
         <CardFooter className="text-center">
           <p className="text-sm text-gray-600">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="text-rose-600 hover:text-rose-800 font-medium">
+            <Link
+              href="/signup"
+              className="text-rose-600 hover:text-rose-800 font-medium"
+            >
               Sign up
             </Link>
           </p>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
