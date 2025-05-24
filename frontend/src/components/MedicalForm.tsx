@@ -82,12 +82,12 @@ export default function MedicalForm() {
       {/* Main Form */}
       <motion.div variants={itemVariants}>
         <Card className="border-rose-200 bg-white/80 backdrop-blur-sm shadow-xl p-0">
-          <CardHeader className="bg-gradient-to-r from-rose-500 to-red-500 text-white rounded-t-lg py-2">
-            <CardTitle className="flex items-center gap-2">
-              <Heart className="h-5 w-5" />
+          <CardHeader className="bg-gradient-to-r from-rose-500 to-red-500 text-white rounded-t-lg py-3">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Heart className="h-6 w-6" />
               Medical Information Form
             </CardTitle>
-            <CardDescription className="text-rose-100">
+            <CardDescription className="text-rose-100 text-sm">
               Please provide accurate information for the most reliable
               assessment
             </CardDescription>
@@ -114,7 +114,7 @@ export default function MedicalForm() {
                     id="subjectId"
                     type="text"
                     placeholder="Enter subject ID"
-                    value={formData.subjectId}
+                    value={formData.subjectId || ""}
                     onChange={(e) =>
                       handleInputChange("subjectId", e.target.value)
                     }
@@ -143,7 +143,7 @@ export default function MedicalForm() {
                     id="patientId"
                     type="text"
                     placeholder="Enter patient ID"
-                    value={formData.patientId}
+                    value={formData.patientId || ""}
                     onChange={(e) =>
                       handleInputChange("patientId", e.target.value)
                     }
@@ -203,7 +203,7 @@ export default function MedicalForm() {
                     id="patientAge"
                     type="number"
                     placeholder="Enter patient age"
-                    value={formData.age}
+                    value={formData.patientAge || ""}
                     onChange={(e) => handleInputChange("patientAge", e.target.value)}
                     className="border-rose-200 focus:border-rose-400"
                     required
@@ -229,7 +229,7 @@ export default function MedicalForm() {
                     </Badge>
                   </Label>
                   <Select
-                    value={formData.patientGender}
+                    value={formData.patientGender || ""}
                     onValueChange={(value) =>
                       handleInputChange("patientGender", value)
                     }
@@ -270,7 +270,7 @@ export default function MedicalForm() {
                     id="admitDate"
                     type="date"
                     placeholder="YYYY-MM-DD"
-                    value={formData.admitDate}
+                    value={formData.admitDate || ""}
                     onChange={(e) =>
                       handleInputChange("admitDate", e.target.value)
                     }
@@ -300,7 +300,7 @@ export default function MedicalForm() {
                     id="dischargeDate"
                     type="date"
                     placeholder="YYYY-MM-DD"
-                    value={formData.dischargeDate}
+                    value={formData.dischargeDate || ""}
                     onChange={(e) =>
                       handleInputChange("dischargeDate", e.target.value)
                     }
@@ -330,7 +330,7 @@ export default function MedicalForm() {
                     </Badge>
                   </Label>
                   <Select
-                    value={formData.dischargeLocation}
+                    value={formData.dischargeLocation || ""}
                     onValueChange={(value) =>
                       handleInputChange("dischargeLocation", value)
                     }
@@ -393,12 +393,6 @@ export default function MedicalForm() {
                 >
                   {isSubmitting ? (
                     <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
                       className="flex items-center gap-2"
                     >
                       <Activity className="h-5 w-5" />
