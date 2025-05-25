@@ -5,14 +5,14 @@ interface Props {
   setFormData: (data: any) => void;
 }
 
-const fillSample = [{}];
-
 export default function FillSampleData({ setFormData }: Props) {
+  const random1 = Math.floor(Math.random()*10000);
+  const random2 = Math.floor(Math.random()*10000);
   //Fill with sample data for demonstration
   const fillSampleData = () => {
     setFormData({
-      subjectId: "SUBJ123",
-      patientId: "PAT456",
+      subjectId: "SUB" + random1,
+      patientId: "PAT" + random2,
       patientName: "Marry Johnson",
       patientAge: "45",
       patientGender: "Female",

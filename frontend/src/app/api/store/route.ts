@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
     if (data) {
       return NextResponse.json(
-        { message: "A record with this patientId is already exists." },
+        { message: "A record with this patientId is already exists and patientId and subjectId must be unique." },
         { status: 400 }
       );
     }

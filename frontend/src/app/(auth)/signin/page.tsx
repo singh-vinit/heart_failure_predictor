@@ -107,7 +107,7 @@ export default function LoginForm() {
               className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer"
               disabled={loading}
             >
-              {loading ?<Heart className="h-10 w-10 animate-spin text-white" /> :<span>Sign Up</span>}
+              {loading ?<Heart className="h-10 w-10 animate-spin text-white" /> :<span>Sign In</span>}
               
             </Button>
           </form>
