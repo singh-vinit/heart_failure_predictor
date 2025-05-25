@@ -11,21 +11,21 @@ const steps = [
     title: "Storing Data",
     description: "Saving your data securely in the database",
     icon: Database,
-    duration: 2000,
+    duration: 9000,
   },
   {
     id: 2,
     title: "Processing Model",
     description: "Making API call to ML model for analysis",
     icon: Brain,
-    duration: 2000,
+    duration: 9000,
   },
   {
     id: 3,
     title: "Fetching Results",
     description: "Retrieving ML model prediction response",
     icon: Download,
-    duration: 2000,
+    duration: 9000,
   },
 ];
 

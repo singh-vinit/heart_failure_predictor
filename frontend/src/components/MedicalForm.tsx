@@ -84,7 +84,6 @@ export default function MedicalForm({ userId }: Props) {
     }));
   };
 
-  const [databaseLoading, setDatabaseLoading] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
