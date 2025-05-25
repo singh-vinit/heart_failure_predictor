@@ -3,6 +3,7 @@ import joblib
 import numpy as np
 from datetime import datetime
 from flask_cors import CORS
+
 app = Flask(__name__)
 CORS(app)
 
@@ -77,14 +78,14 @@ def predict():
         discharge_location = form_to_done_discharge_mapping[discharge_location_form]
 
         try:
-            admit_time = datetime.strptime(admit_time_str, "%Y-%m-%d %H:%M:%S")
-            disch_time = datetime.strptime(disch_time_str, "%Y-%m-%d %H:%M:%S")
-            length_of_stay_days = (disch_time - admit_time).total_seconds() / (24 * 3600)
+            admit_time = datetime.strptime(admit_time_str, "%Y-%m-%d")
+            disch_time = datetime.strptime(disch_time_str, "%Y-%m-%d")
+            length_of_stay_days = (disch_time - admit_time).days
             if length_of_stay_days < 0:
-                return jsonify({"error": "Departure time cannot be earlier than admission time"}), 400
+                return jsonify({"error": "Departure date cannot be earlier than admission date"}), 400
             length_of_stay_normalized = normalize_input(length_of_stay_days, 0, 24)
         except ValueError:
-            return jsonify({"error": "Invalid timestamp format. Use YYYY-MM-DD HH:MM:SS"}), 400
+            return jsonify({"error": "Invalid date format. Use YYYY-MM-DD"}), 400
 
         gender_str = gender_str.capitalize()
         if gender_str not in ["Male", "Female"]:
