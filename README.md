@@ -36,7 +36,7 @@ This project is a machine learning-powered web application designed to predict t
 
 ## 📁 Project Folder Structure
 
-````plaintext
+```plaintext
 heart-failure-prediction/
 │
 ├── frontend/                  # Next.js application
@@ -61,6 +61,7 @@ heart-failure-prediction/
 │
 ├── .env                       # Shared environment config (sample)
 
+```
 
 ## 🧪 How It Works
 
@@ -69,7 +70,6 @@ heart-failure-prediction/
 3. Submits form → data sent to `/predict` API endpoint.
 4. Receives a risk score (0–100%) and a diagnosis report.
 5. Can print or download the generated report.
-
 
 ## 🛠 Tech Stack
 
@@ -88,11 +88,9 @@ heart-failure-prediction/
 **Team Codiologist**
 Built for **Hackathon 2025 – Use Case 4**: 30-Day Readmission Prediction for Heart Failure Patients
 
-
 ## figma file
 
 Figma Link -> https://www.figma.com/design/LQXSo9dh27iJVGmhIfcltt/Landing-page?node-id=0-1&t=diKrBpvhCiMr9QoQ-1
-
 
 ## video explaination
 
@@ -102,9 +100,9 @@ Drive Link - https://drive.google.com/file/d/1CLqVrzb2xeWla4cS2JcT6XDaslOB2NZs/v
 
 1. clone the repo
 
- ```sh
-   git clone https://github.com/your-username/heart-failure-prediction.git
-   cd heart-failure-prediction
+```sh
+  git clone https://github.com/your-username/heart-failure-prediction.git
+  cd heart-failure-prediction
 ```
 
 2. 🧩 Backend Setup (Flask API + XGBoost)
@@ -118,12 +116,14 @@ python app.py  #run the flask api
 ```
 
 3. 🎨 Frontend Setup (Next.js)
+
 ```sh
 cd ../frontend
 npm install
 ```
 
 4. setup environment variable for frontend
+
 ```sh
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -131,12 +131,16 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
 ```
 
 5. Start the development server:
+
 ```sh
 npm run dev
 ```
+
 6. Access the application at http://localhost:3000.
-````
+
+```
 
 ## License
 
 This project is licensed under the **MIT License**.
+```
