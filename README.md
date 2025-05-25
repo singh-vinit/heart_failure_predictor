@@ -1,75 +1,142 @@
-# Heart Failure Predictor
-Heart Failure Readmission Predictor
+# 💓 Heart Failure Predictor
 
-This project is a machine learning-powered web application designed to predict the likelihood of 30-day hospital readmission for heart failure patients. Built for a healthcare-focused hackathon (Use Case 4), it enables clinicians to identify high-risk patients early and make informed care decisions.
+**Heart Failure Readmission Predictor**
 
-🚀 Features
+This project is a machine learning-powered web application designed to predict the likelihood of **30-day hospital readmission** for heart failure patients. Built for a healthcare-focused hackathon (Use Case 4), it enables clinicians to identify high-risk patients early and make informed care decisions.
 
-Predicts 30-day readmission risk using clinical and lab data
+---
 
-Clean, responsive UI with modern design
+## 🚀 Features
 
-Medical information form with validation and dynamic lab test entry
+- 🔍 Predicts 30-day readmission risk using clinical and lab data
+- 🎨 Clean, responsive UI with modern design
+- 🧾 Medical form with validation and dynamic lab test input
+- ⚡ Real-time prediction via Flask API
+- 📊 Visual patient report with risk percentage & printable summary
+- 🔐 Google or Email-based Sign-Up/Sign-In via Supabase
 
-Real-time prediction using a deployed Flask API
+---
 
-Visual patient report with risk percentage and printable summary
+## 🧠 ML Model
 
-Google or Email-based Sign-Up/Sign-In
+- **Model Type**: XGBoost Classifier
+- **Tuning**: Hyperparameter optimization with Optuna
+- **Inputs**:
+  - Discharge location
+  - Gender
+  - Length of stay
+  - Abnormal lab count
+  - Lab test count
+  - ICD9-based severity
+- **Backend**: Flask API hosted on Render
+- **Frontend**: Built using React.js (Next.js) and Tailwind CSS
+- **Integration**: CORS-enabled for seamless frontend-backend communication
 
-🧠 ML Model
+---
 
-Model Type: XGBoost Classifier
+## 📁 Project Folder Structure
 
-Tuning: Hyperparameter optimization with Optuna
+````plaintext
+heart-failure-prediction/
+│
+├── frontend/                  # Next.js application
+│   ├── components/            # Reusable UI components
+│   ├── pages/                 # Application routes
+│   │   ├── index.tsx          # Landing page
+│   │   ├── signin.tsx         # Sign In page
+│   │   ├── signup.tsx         # Sign Up page
+│   │   └── dashboard.tsx      # Protected dashboard
+│   ├── utils/                 # Helper functions (session, auth)
+│   ├── styles/                # Tailwind + global styles
+│   └── public/                # Static assets
+│
+├── backend/                   # Flask API
+│   ├── app.py                 # Main Flask app
+│   ├── model/
+│   │   ├── predict.py         # Prediction logic
+│   │   └── train_model.py     # Model training (with Optuna tuning)
+│   ├── requirements.txt       # Python dependencies
+│   ├── model.pkl              # Serialized ML model (Joblib)
+│   └── utils/                 # Data preprocessing, validation
+│
+├── .env                       # Shared environment config (sample)
 
-Inputs: Discharge location, gender, length of stay, abnormal lab count, lab test count, ICD9-based severity
 
-Backend: Flask API served on Render
+## 🧪 How It Works
 
-Frontend: Built using React.js with Tailwind CSS
+1. User signs up or signs in via email or Google.
+2. Fills in medical form with clinical details.
+3. Submits form → data sent to `/predict` API endpoint.
+4. Receives a risk score (0–100%) and a diagnosis report.
+5. Can print or download the generated report.
 
-Integration: CORS enabled for seamless frontend-backend communication
 
-📁 Folder Structure
+## 🛠 Tech Stack
 
-frontend/          # React-based frontend UI
-└── src/
-    └── components/  # Hero, Form, Navbar, Report, etc.
-backend/           # Flask API for prediction
-└── app.py         # Main Flask application
-└── xgb_model.pkl  # Trained ML model
+**Frontend**: Next.js, TailwindCSS, motion.dev
+**Backend**: Flask, Python
+**ML**: XGBoost, Optuna, NumPy, Joblib
+**Auth**: Supabase (Email + Google)
 
-🧪 How It Works
+## 🌐 Deployment
 
-User registers and signs in
+**Backend**: Flask API hosted on [Render] (https://heart-failure-predictor-brown.vercel.app/)
+**Frontend**: Next.js, deployable on [Vercel] (https://heart-failure-predictor-z0j1.onrender.com/predict)
 
-Fills medical form with details like gender, age, dates, lab tests
+## 🤝 Team
 
-Submits data to /predict API endpoint
+**Team Codiologist**
+Built for **Hackathon 2025 – Use Case 4**: 30-Day Readmission Prediction for Heart Failure Patients
 
-Receives a risk score (0–100%) and a diagnosis report
 
-Optionally downloads/prints the report
+## figma file
 
-🌐 Deployment
+Figma Link -> https://www.figma.com/design/LQXSo9dh27iJVGmhIfcltt/Landing-page?node-id=0-1&t=diKrBpvhCiMr9QoQ-1
 
-Backend: Flask API hosted on Render
 
-Frontend: React app (Vercel/Netlify compatible)
+## video explaination
 
-📦 Tech Stack
+Drive Link - https://drive.google.com/file/d/1CLqVrzb2xeWla4cS2JcT6XDaslOB2NZs/view?usp=sharing
 
-Python, Flask, XGBoost
+## 🛠️ Installation & Setup Guide
 
-React.js, Tailwind CSS
+1. clone the repo
 
-Optuna, NumPy, joblib
+ ```sh
+   git clone https://github.com/your-username/heart-failure-prediction.git
+   cd heart-failure-prediction
+```
 
-🤝 Team
+2. 🧩 Backend Setup (Flask API + XGBoost)
 
-Team CodiologistBuilt for Hackathon 2025 – Use Case 4: 30-Day Readmission Prediction for Heart Failure Patients
+```sh
+cd backend
+python -m venv venv
+source venv/bin/activate       # For Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py  #run the flask api
+```
 
-📄 License
+3. 🎨 Frontend Setup (Next.js)
+```sh
+cd ../frontend
+npm install
+```
 
-This project is for educational and hackathon purposes only. Not intended for real-world clinical use without validation.
+4. setup environment variable for frontend
+```sh
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
+```
+
+5. Start the development server:
+```sh
+npm run dev
+```
+6. Access the application at http://localhost:3000.
+````
+
+## License
+
+This project is licensed under the **MIT License**.
