@@ -1,10 +1,12 @@
+"use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, Activity, AlertCircle, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import MultistepLoader from "./MultistepLoader";
+import ModelLoader from "./ModelLoader";
+import { useRouter } from "next/navigation";
 
 import {
   Select,
@@ -84,6 +86,8 @@ export default function MedicalForm({ userId }: Props) {
     }));
   };
 
+  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -149,6 +153,9 @@ export default function MedicalForm({ userId }: Props) {
       alert("A record with this patientId is already exists.");
       setIsSubmitting(false);
       return;
+    } else {
+      setIsSubmitting(false);
+      router.push(`/dashboard/report/${formData.patientId}`);
     }
   };
 
@@ -189,7 +196,7 @@ export default function MedicalForm({ userId }: Props) {
   };
 
   return isSubmitting ? (
-    <MultistepLoader patientId={formData.patientId} />
+    <ModelLoader />
   ) : (
     <motion.div
       variants={containerVariants}
