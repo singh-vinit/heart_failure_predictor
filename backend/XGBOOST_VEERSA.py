@@ -1,25 +1,32 @@
+
+
+import numpy as np
+import pandas as pd
 import optuna
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score, classification_report
-import pandas as pd
 
-data = pd.read_csv(r"C:\Users\sarthak mohapatra\Downloads\done.csv")
+# Load data
+data = pd.read_csv(r"C:\Users\sarthak mohapatra\Downloads\finaldatset3aftericd9_minmax.csv")
 X = data.drop('readmitted_30_days', axis=1)
 y = data['readmitted_30_days']
 
+# Split data
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
+# Compute scale_pos_weight
 neg_count = y_train.value_counts()[0]
 pos_count = y_train.value_counts()[1]
 scale_pos_weight_value = neg_count / pos_count
 
+# Define objective function
 def objective(trial):
     params = {
         "objective": "binary:logistic",
-        "eval_metric":"aucpr",
+        "eval_metric": "aucpr",
         "use_label_encoder": False,
         "random_state": 42,
         "scale_pos_weight": scale_pos_weight_value,
@@ -33,19 +40,33 @@ def objective(trial):
         "reg_lambda": trial.suggest_float("reg_lambda", 0, 1)
     }
 
+    # Suggest a weight multiplier for severe cases with high abnormal_lab_count
+    weight_multiplier = trial.suggest_float("weight_multiplier", 0, 5)
+    
+    # Define weights: higher for severity_rank > 1 AND high abnormal_lab_count
+    lab_threshold = X_train['abnormal_lab_count'].median()  # Or use a domain-specific threshold
+    weight_train = np.where(
+        (X_train['severity_rank'] > 1) & (X_train['abnormal_lab_count'] > lab_threshold),
+        1 + weight_multiplier,  # Boost weight for severe cases with high abnormal labs
+        1  # Default weight for others
+    )
+
     model = xgb.XGBClassifier(**params)
-    model.fit(X_train, y_train)
+    model.fit(X_train, y_train, sample_weight=weight_train)
     y_pred = model.predict(X_test)
     return f1_score(y_test, y_pred)
 
+# Run optimization
 study = optuna.create_study(direction="maximize")
-study.optimize(objective, n_trials=150)
+study.optimize(objective, n_trials=50)
 
 print("Best Trial:")
 print(f"  F1-Score: {study.best_value:.4f}")
 print("  Best Hyperparameters:", study.best_params)
 
+# Train final model
 best_params = study.best_params
+weight_multiplier = best_params.pop("weight_multiplier")
 best_params.update({
     "objective": "binary:logistic",
     "eval_metric": "logloss",
@@ -55,7 +76,13 @@ best_params.update({
 })
 
 final_model = xgb.XGBClassifier(**best_params)
-final_model.fit(X_train, y_train)
+lab_threshold = X_train['abnormal_lab_count'].median()
+weight_train = np.where(
+    (X_train['severity_rank'] > 1) & (X_train['abnormal_lab_count'] > lab_threshold),
+    1 + weight_multiplier,
+    1
+)
+final_model.fit(X_train, y_train, sample_weight=weight_train)
 y_pred = final_model.predict(X_test)
 
 print("\nFinal Model Evaluation:")
@@ -65,6 +92,11 @@ print(f"Recall:    {recall_score(y_test, y_pred):.4f}")
 print(f"F1-Score:  {f1_score(y_test, y_pred):.4f}")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
+import joblib
+
+# Save model
+joblib.dump(final_model, 'xgb_model_joblib.pkl')
+print("model_saved")
 
 
 # xgb.plot_importance(xgb_model)
