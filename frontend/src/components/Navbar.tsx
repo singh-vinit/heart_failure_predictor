@@ -37,7 +37,7 @@ const Navbar = ({ scrollToFeatures, scrollToBenefits }: NavbarProps) => {
           <button onClick={scrollToFeatures} className="text-gray-600 hover:text-rose-600 transition-colors">Features</button>
             <div className="flex items-center space-x-4">
               <Button onClick={handleSignUp} variant="outline" className="border-rose-600 text-rose-600 hover:bg-rose-50 cursor-pointer">Sign Up</Button>
-              <Button onClick={handleSignUp} className="bg-rose-500 hover:bg-rose-600 cursor-pointer">Sign In</Button>
+              <Button onClick={handleSignIn} className="bg-rose-500 hover:bg-rose-600 cursor-pointer">Sign In</Button>
             </div>
           </div>
           
@@ -66,10 +66,10 @@ const Navbar = ({ scrollToFeatures, scrollToBenefits }: NavbarProps) => {
             
             <div className="mt-4 flex flex-col space-y-2">
             <div className="flex items-center space-x-4">
-          <Button variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50">
+          <Button onClick={handleSignUp} variant="outline" className="border-pink-200 text-pink-600 hover:bg-pink-50">
             Sign Up
           </Button>
-          <Button className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600">
+          <Button onClick={handleSignIn} className="bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600">
             Sign In
           </Button>
         </div>

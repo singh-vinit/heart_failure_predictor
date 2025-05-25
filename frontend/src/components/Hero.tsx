@@ -1,7 +1,10 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { HeartPulse } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+  const router = useRouter();
   return (
     <section className="py-20 bg-gradient-to-b from-rose-50 to-white">
       <div className="container px-4 mx-auto">
@@ -14,10 +17,10 @@ const Hero = () => {
               Our AI-powered tool helps healthcare providers identify patients at high risk for readmission, enabling timely interventions and improved outcomes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-rose-600 hover:bg-rose-700">
+              <Button onClick={() => router.push("/signup")} size="lg" className="bg-rose-600 hover:bg-rose-700">
                 Try The Predictor
               </Button>
-              <Button size="lg" variant="outline" className="border-rose-600 text-rose-600 hover:bg-blue-50">
+              <Button onClick={() => router.push("/about")} size="lg" variant="outline" className="border-rose-600 text-rose-600 hover:bg-blue-50">
                 Learn More
               </Button>
             </div>

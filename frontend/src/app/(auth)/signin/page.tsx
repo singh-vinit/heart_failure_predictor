@@ -39,8 +39,8 @@ export default function LoginForm() {
       setLoading(false);
       toast(error.message);
     } else {
+      setLoading(false);
       router.push("/dashboard");
-      console.log("User data:", data);
     }
   };
 
@@ -70,8 +70,9 @@ export default function LoginForm() {
               <Heart className="h-8 w-8 text-white" />
             </div>
           </CardTitle>
-          <CardDescription className="text-xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">
-            Sign in to your account to continue
+          <CardDescription className="capitalize font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">
+            <p className="text-xl">welcome back</p>
+            <p className="text-sm">Sign in to your account to continue</p>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -104,8 +105,10 @@ export default function LoginForm() {
             <Button
               type="submit"
               className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer"
+              disabled={loading}
             >
-              Sign in
+              {loading ?<Heart className="h-10 w-10 animate-spin text-white" /> :<span>Sign Up</span>}
+              
             </Button>
           </form>
 

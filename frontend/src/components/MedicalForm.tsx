@@ -4,7 +4,8 @@ import { Heart, Activity, AlertCircle, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import MultistepLoader from "./MultistepLoader";
+
 import {
   Select,
   SelectContent,
@@ -86,8 +87,46 @@ export default function MedicalForm({ userId }: Props) {
   const [databaseLoading, setDatabaseLoading] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setDatabaseLoading(true);
+    setIsSubmitting(true);
+
+    //api call to prcess the data with the ML model
+    const tests = [] as [string, string][];
+    console.log(tests);
+    console.log("dischargeLocation: ", formData.dischargeLocation);
+    formData.labTest.map((test) => tests.push([test.status, test.code]));
+    const reqData = JSON.stringify({
+      features: [
+        formData.dischargeLocation,
+        formData.admitDate,
+        formData.dischargeDate,
+        formData.patientGender,
+        tests,
+      ],
+    });
+    console.log("request data", reqData);
+    const predictionRes = await fetch(
+      "https://heart-failure-predictor-z0j1.onrender.com/predict",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          features: [
+            formData.dischargeLocation,
+            formData.admitDate,
+            formData.dischargeDate,
+            formData.patientGender,
+            tests,
+          ],
+        }),
+      }
+    );
+    const predictionData = await predictionRes.json();
+    console.log("model output", predictionData);
+
     // api call to store patient data in the database
+    console.log(formData.labTest);
     const res = await fetch("/api/store", {
       method: "POST",
       headers: {
@@ -97,36 +136,21 @@ export default function MedicalForm({ userId }: Props) {
         userId: userId,
         name: formData.patientName,
         age: formData.patientAge,
-        gender: formData.patientGender == "M" ? "MALE" : "FEMALE",
+        gender: formData.patientGender,
         admitDate: formData.admitDate,
         dischargeDate: formData.dischargeDate,
-        dischargeLocation:
-          dischargeLocations[Number(formData.dischargeLocation)],
+        probability: predictionData.probability,
+        patientId: formData.patientId,
+        labTests: JSON.stringify(formData.labTest),
+        dischargeLocation: formData.dischargeLocation,
       }),
     });
     console.log(res);
-
-    //api call to prcess the data with the ML model
-    const tests = [] as [string, string][];
-    formData.labTest.map((test) => tests.push([test.status, test.code]));
-    const predictionRes = await fetch("https://heart-failure-predictor-z0j1.onrender.com/predict", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        features: [
-          formData.dischargeLocation,
-          formData.admitDate,
-          formData.dischargeDate,
-          formData.patientGender,
-          tests,
-        ],
-      }),
-    });
-    console.log(predictionRes);
-
-    setDatabaseLoading(false);
+    if (res.status === 400) {
+      alert("A record with this patientId is already exists.");
+      setIsSubmitting(false);
+      return;
+    }
   };
 
   const containerVariants = {
@@ -151,7 +175,23 @@ export default function MedicalForm({ userId }: Props) {
     },
   };
 
-  return (
+  const clearForm = () => {
+    setFormData({
+      subjectId: "",
+      patientId: "",
+      patientName: "",
+      patientAge: "",
+      patientGender: "",
+      admitDate: "",
+      dischargeDate: "",
+      dischargeLocation: "",
+      labTest: [{ code: "", status: "" }],
+    });
+  };
+
+  return isSubmitting ? (
+    <MultistepLoader patientId={formData.patientId} />
+  ) : (
     <motion.div
       variants={containerVariants}
       initial="hidden"
@@ -159,7 +199,13 @@ export default function MedicalForm({ userId }: Props) {
       className="max-w-3xl mx-auto"
     >
       <FillSampleData setFormData={setFormData} />
-
+      <Button
+        variant={"outline"}
+        onClick={clearForm}
+        className="border-rose-400 text-rose-400 hover:bg-rose-50 ml-10"
+      >
+        clear
+      </Button>
       {/* Main Form */}
       <motion.div variants={itemVariants}>
         <Card className="border-rose-200 bg-white/80 backdrop-blur-sm shadow-xl p-0">
@@ -423,21 +469,30 @@ export default function MedicalForm({ userId }: Props) {
                       <SelectValue placeholder="Select the relevant discharge location" />
                     </SelectTrigger>
                     <SelectContent className="capitalize">
-                      <SelectItem value="1">SNF</SelectItem>
-                      <SelectItem value="2">HOME</SelectItem>
-                      <SelectItem value="3">
+                      <SelectItem value="SNF">SNF</SelectItem>
+                      <SelectItem value="HOME">HOME</SelectItem>
+                      <SelectItem value="HOME HEALTH CARE">
+                        HOME HEALTH CARE
+                      </SelectItem>
+                      <SelectItem value="REHAB/DISTINCT PART HOSP">
                         REHAB/DISTINCT PART HOSP
                       </SelectItem>
-                      <SelectItem value="4">LONG TERM CARE HOSPITAL</SelectItem>
-                      <SelectItem value="5">SHORT TERM HOSPITAL</SelectItem>
-                      <SelectItem value="6">
+                      <SelectItem value="LONG TERM CARE HOSPITAL">
+                        LONG TERM CARE HOSPITAL
+                      </SelectItem>
+                      <SelectItem value="SHORT TERM HOSPITAL">
+                        SHORT TERM HOSPITAL
+                      </SelectItem>
+                      <SelectItem value="LEFT AGAINST MEDICAL ADVI">
                         LEFT AGAINST MEDICAL ADVI
                       </SelectItem>
-                      <SelectItem value="7">HOSPICE-HOME</SelectItem>
-                      <SelectItem value="8">
+                      <SelectItem value="HOSPICE-HOME">HOSPICE-HOME</SelectItem>
+                      <SelectItem value="DISC-TRAN CANCER/CHLDRN H">
                         DISC-TRAN CANCER/CHLDRN H
                       </SelectItem>
-                      <SelectItem value="9">OTHER FACILITY</SelectItem>
+                      <SelectItem value="OTHER FACILITY">
+                        OTHER FACILITY
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-gray-500 flex items-start gap-1">

@@ -42,6 +42,7 @@ export default function LoginForm() {
       toast(error.message);
     } else {
       // Optionally, store name/phone in your own table here
+      setLoading(false);
       router.push("/signin");
     }
   };
@@ -72,8 +73,9 @@ export default function LoginForm() {
               <Heart className="h-8 w-8 text-white" />
             </div>
           </CardTitle>
-          <CardDescription className="text-xl uppercase font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">
-            Sign up to the health failure readamission
+          <CardDescription className="capitalize font-semibold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">
+            <p className="text-xl">register here</p>
+            <p className="text-sm">Sign up to the health failure readamission</p>
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -105,8 +107,9 @@ export default function LoginForm() {
             <Button
               type="submit"
               className="w-full bg-rose-600 hover:bg-rose-700 cursor-pointer"
+              disabled={loading}
             >
-              Sign up
+              {loading ?<Heart className="h-10 w-10 animate-spin text-white" /> :<span>Sign Up</span>}
             </Button>
           </form>
 

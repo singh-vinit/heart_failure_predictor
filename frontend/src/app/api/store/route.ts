@@ -4,15 +4,16 @@ import { supabase } from "@/lib/supabaseClient";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { userId } = body;
+    console.log("request body: ", body);
+    const { patientId } = body;
     const { data } = await supabase
       .from("patientDetail")
       .select("id")
-      .eq("userId", userId)
+      .eq("patientId", patientId)
       .maybeSingle();
     if (data) {
       return NextResponse.json(
-        { message: "A record with this userId already exists." },
+        { message: "A record with this patientId is already exists." },
         { status: 400 }
       );
     }

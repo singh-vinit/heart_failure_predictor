@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Check, Database, Brain, Download, Flower2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 const steps = [
   {
@@ -17,32 +18,25 @@ const steps = [
     title: "Processing Model",
     description: "Making API call to ML model for analysis",
     icon: Brain,
-    duration: 3000,
+    duration: 2000,
   },
   {
     id: 3,
     title: "Fetching Results",
     description: "Retrieving ML model prediction response",
     icon: Download,
-    duration: 2500,
+    duration: 2000,
   },
 ];
 
-export default function Component() {
+export default function MultistepLoader({patientId}: { patientId: string }) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isComplete, setIsComplete] = useState(false);
 
-  const startLoading = () => {
-    setIsLoading(true);
-    setCurrentStep(0);
-    setIsComplete(false);
-  };
-
-  const resetLoader = () => {
-    setIsLoading(false);
-    setCurrentStep(0);
-    setIsComplete(false);
+  const router = useRouter();
+  const handleReport = () => {
+    router.push(`/dashboard/report/${patientId}`);
   };
 
   useEffect(() => {
@@ -75,16 +69,6 @@ export default function Component() {
             <p className="text-rose-600">Processing your request with care</p>
           </div>
 
-          {!isLoading && !isComplete && (
-            <div className="text-center">
-              <Button
-                onClick={startLoading}
-                className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-3 rounded-full shadow-lg transform transition-all duration-200 hover:scale-105"
-              >
-                Start Processing
-              </Button>
-            </div>
-          )}
 
           {(isLoading || isComplete) && (
             <div className="space-y-6">
@@ -196,11 +180,11 @@ export default function Component() {
                     </p>
                   </div>
                   <Button
-                    onClick={resetLoader}
+                    onClick={handleReport}
                     variant="outline"
                     className="border-rose-300 text-rose-600 hover:bg-rose-50"
                   >
-                    Process Another Request
+                    Go to Report
                   </Button>
                 </div>
               )}
