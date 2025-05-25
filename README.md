@@ -2,7 +2,21 @@
 
 **Heart Failure Readmission Predictor**
 
-This project is a machine learning-powered web application designed to predict the likelihood of **30-day hospital readmission** for heart failure patients. Built for a healthcare-focused hackathon (Use Case 4), it enables clinicians to identify high-risk patients early and make informed care decisions.
+This project is a machine learning-powered web application designed to predict the likelihood of **30-day hospital readmission** for heart failure patients, it enables clinicians to identify high-risk patients early and make informed care decisions.
+
+---
+
+# Team - Codiologist
+
+---
+
+## Demo
+
+- Project Link : https://heart-failure-predictor-brown.vercel.app/
+- Video Explanation : https://drive.google.com/file/d/1CLqVrzb2xeWla4cS2JcT6XDaslOB2NZs/view?usp=sharing
+- Figma File : https://www.figma.com/design/LQXSo9dh27iJVGmhIfcltt/Landing-page?node-id=0-1&t=diKrBpvhCiMr9QoQ-1
+- Api Documentation : https://documenter.getpostman.com/view/45294944/2sB2qcCg7z
+- Ml Model Documentation : https://drive.google.com/file/d/1kImpe-VHfxwSqQu7t3olVJf9ODkin7-F/view?usp=sharing
 
 ---
 
@@ -34,35 +48,6 @@ This project is a machine learning-powered web application designed to predict t
 
 ---
 
-## 📁 Project Folder Structure
-
-```plaintext
-heart-failure-prediction/
-│
-├── frontend/                  # Next.js application
-│   ├── components/            # Reusable UI components
-│   ├── pages/                 # Application routes
-│   │   ├── index.tsx          # Landing page
-│   │   ├── signin.tsx         # Sign In page
-│   │   ├── signup.tsx         # Sign Up page
-│   │   └── dashboard.tsx      # Protected dashboard
-│   ├── utils/                 # Helper functions (session, auth)
-│   ├── styles/                # Tailwind + global styles
-│   └── public/                # Static assets
-│
-├── backend/                   # Flask API
-│   ├── app.py                 # Main Flask app
-│   ├── model/
-│   │   ├── predict.py         # Prediction logic
-│   │   └── train_model.py     # Model training (with Optuna tuning)
-│   ├── requirements.txt       # Python dependencies
-│   ├── model.pkl              # Serialized ML model (Joblib)
-│   └── utils/                 # Data preprocessing, validation
-│
-├── .env                       # Shared environment config (sample)
-
-```
-
 ## 🧪 How It Works
 
 1. User signs up or signs in via email or Google.
@@ -71,30 +56,28 @@ heart-failure-prediction/
 4. Receives a risk score (0–100%) and a diagnosis report.
 5. Can print or download the generated report.
 
+## 🔐 Authentication (Supabase)
+
+This project uses Supabase Auth for secure authentication with Email/Password and Google OAuth providers.
+| **Method** | **Route** | **Description** |
+| ---------- | -------------- | ---------------------------------------- |
+| `POST` | `/auth/signup` | Register a new user with email/password |
+| `POST` | `/auth/signin` | Login user with email and password |
+| `POST` | `/auth/oauth` | Sign in user with Google OAuth |
+
 ## 🛠 Tech Stack
 
-**Frontend**: Next.js, TailwindCSS, motion.dev
-**Backend**: Flask, Python
-**ML**: XGBoost, Optuna, NumPy, Joblib
-**Auth**: Supabase (Email + Google)
+| Layer                | Technologies                                                                                                                                     |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Frontend**         | [Next.js](https://nextjs.org/), [TailwindCSS](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/)                         |
+| **Backend**          | [Flask](https://flask.palletsprojects.com/), [Python](https://www.python.org/)                                                                   |
+| **Machine Learning** | [XGBoost](https://xgboost.readthedocs.io/), [Optuna](https://optuna.org/), [NumPy](https://numpy.org/), [Joblib](https://joblib.readthedocs.io/) |
+| **Authentication**   | [Supabase Auth](https://supabase.com/docs/guides/auth) (Email & Google OAuth)                                                                    |
 
 ## 🌐 Deployment
 
 **Backend**: Flask API hosted on [Render] (https://heart-failure-predictor-brown.vercel.app/)
 **Frontend**: Next.js, deployable on [Vercel] (https://heart-failure-predictor-z0j1.onrender.com/predict)
-
-## 🤝 Team
-
-**Team Codiologist**
-Built for **Hackathon 2025 – Use Case 4**: 30-Day Readmission Prediction for Heart Failure Patients
-
-## figma file
-
-Figma Link -> https://www.figma.com/design/LQXSo9dh27iJVGmhIfcltt/Landing-page?node-id=0-1&t=diKrBpvhCiMr9QoQ-1
-
-## video explaination
-
-Drive Link - https://drive.google.com/file/d/1CLqVrzb2xeWla4cS2JcT6XDaslOB2NZs/view?usp=sharing
 
 ## 🛠️ Installation & Setup Guide
 
@@ -127,7 +110,6 @@ npm install
 ```sh
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-NEXT_PUBLIC_API_BASE_URL=http://localhost:5000
 ```
 
 5. Start the development server:
@@ -138,7 +120,6 @@ npm run dev
 
 6. Access the application at http://localhost:3000.
 
-
 ## License
-This project is licensed under the **MIT License**.
 
+This project is licensed under the **MIT License**.
