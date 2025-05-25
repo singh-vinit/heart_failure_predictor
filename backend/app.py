@@ -108,7 +108,7 @@ def predict():
         probability = model.predict_proba([input_vector])[0][1]
 
         return jsonify({
-            "prediction": prediction,
+            "prediction": int(prediction),
             "probability": float(probability)
         })
 
