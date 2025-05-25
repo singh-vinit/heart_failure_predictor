@@ -106,7 +106,7 @@ def predict():
 
         probability = model.predict_proba([input_vector])[0][1]
         threshold=0.3
-        prediction = 1 if proba >= threshold else 0
+        prediction = 1 if probability >= threshold else 0
         return jsonify({
             "prediction": int(prediction),
             "probability": float(probability)
