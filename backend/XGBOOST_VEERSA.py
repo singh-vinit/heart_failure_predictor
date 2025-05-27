@@ -44,7 +44,7 @@ def objective(trial):
     weight_multiplier = trial.suggest_float("weight_multiplier", 0, 5)
     
     # Define weights: higher for severity_rank > 1 AND high abnormal_lab_count
-    lab_threshold = X_train['abnormal_lab_count'].median()  # Or use a domain-specific threshold
+    lab_threshold = X_train['abnormal_lab_count'].median()  
     weight_train = np.where(
         (X_train['severity_rank'] > 1) & (X_train['abnormal_lab_count'] > lab_threshold),
         1 + weight_multiplier,  # Boost weight for severe cases with high abnormal labs
