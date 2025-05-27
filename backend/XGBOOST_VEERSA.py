@@ -7,7 +7,7 @@ import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score, classification_report
 
-# Load data
+
 data = pd.read_csv(r"C:\Users\sarthak mohapatra\Downloads\finaldatset3aftericd9_minmax.csv")
 X = data.drop('readmitted_30_days', axis=1)
 y = data['readmitted_30_days']
@@ -17,7 +17,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
 
-# Compute scale_pos_weight
+
 neg_count = y_train.value_counts()[0]
 pos_count = y_train.value_counts()[1]
 scale_pos_weight_value = neg_count / pos_count
@@ -40,7 +40,7 @@ def objective(trial):
         "reg_lambda": trial.suggest_float("reg_lambda", 0, 1)
     }
 
-    # Suggest a weight multiplier for severe cases with high abnormal_lab_count
+     
     weight_multiplier = trial.suggest_float("weight_multiplier", 0, 5)
     
     # Define weights: higher for severity_rank > 1 AND high abnormal_lab_count
@@ -56,7 +56,7 @@ def objective(trial):
     y_pred = model.predict(X_test)
     return f1_score(y_test, y_pred)
 
-# Run optimization
+# optimization
 study = optuna.create_study(direction="maximize")
 study.optimize(objective, n_trials=50)
 
